@@ -1,0 +1,16 @@
+---
+- name: configuration tomcat9 and tomcat9-admin
+  hosts: all
+  tasks: 
+    - name:  call multiple child playbooks
+      include: "{{item}}"
+      with_items: 
+         - install_tomcat9.yml
+         - copy_tomcat-users.yml
+         - change_port.yml
+         - restart_tomcat.yml
+         - pause_tomcat9.yml
+         - check_url_tomcat.yml 
+
+
+...           

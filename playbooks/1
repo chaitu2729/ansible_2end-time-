@@ -1,0 +1,11 @@
+---
+- name: check if the file is executable permissions or not if it is yes delete it
+  hosts: all
+  tasks: 
+     - name: check if the file10 present or not
+       stat:
+         path: /home/ubuntu/f10
+       register: b    
+     - name: display the output above module
+       debug: 
+          var: b

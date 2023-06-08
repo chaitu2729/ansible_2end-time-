@@ -1,0 +1,30 @@
+---
+- name: configure apache2
+  hosts: all
+  tasks:
+     - name: configure apache2
+       apt: 
+         name: apache2
+         state: present
+         update_cache: yes
+       notify: check url response    
+     - name: change the content
+       copy:
+         content: welcome to ammerpet world
+         dest: /var/www/html/index.html
+       notify: restart apache2 
+  handlers:
+     - name: restart apache2
+       service: 
+         name: apache2
+         state: restarted
+     - name: check url response
+       uri: 
+        url: "{{item}}"
+        status_code: 200
+       with_items:
+         - http://172.31.28.222     
+         - http://172.31.24.47
+
+
+...           

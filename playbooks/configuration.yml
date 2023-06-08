@@ -1,0 +1,11 @@
+---
+- name: call multiple child playbooks
+  hosts: all
+  tasks:
+    - name: using include module
+      include: "{{item}}"
+      with_items:
+        - install.yml
+        - edit_index.yml
+        - restart.yml
+        - check_url.yml  

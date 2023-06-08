@@ -1,0 +1,44 @@
+---
+- name: installing apache2 on both os 
+  hosts: all
+  tasks: 
+    - name: install apache2  using apt module
+      apt:
+        name: "{{item.a}}"
+        state: "{{item.b}}"
+        update_cache: "{{item.c}}"
+      with_items: 
+         - {a: apache2,b: present,c: yes}    
+      when: ansible_distribution == "Ubuntu"    
+    - name: install apache2 using yum module
+      yum:
+        name: "{{item.d}}"
+        state: "{{item.b}}"
+        update_cache: "{{item.c}}"
+      with_items:
+         - {d: httpd,b: present,c: yes}
+      when: ansible_distribution == "RedHat"
+    - name: edit the index.htmlfile 
+      copy: 
+        content: "welcome mr.chaithu"
+        dest: /var/www/html/index.html
+    - name: restart apache2 on ubuntu
+      service:
+         name: apache2
+         state: restarted
+      when: ansible_distribution == "Ubuntu"
+    - name: restart httpd on RedHat
+      service:
+        name: httpd
+        state: restarted
+      when: ansible_distribution == "RedHat"
+    - name: check url response on apache2 and httpd
+      uri: 
+        url: "{{item}}"
+        status_code: 200
+      with_items:
+       - http://172.31.16.137
+       - http://172.31.24.47
+       - http://172.31.28.222      
+
+...        

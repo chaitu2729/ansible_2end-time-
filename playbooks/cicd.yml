@@ -1,0 +1,59 @@
+---
+- name: implementing cicdi in ansible
+  hosts: all
+  tasks:
+     - name: installing required softwares
+       apt:
+         name: "{{item.a}}"
+         state: present
+         update_cache: "{{item.b}}"
+       with_items:
+         - {a: git,b: yes}
+         - {a: openjdk-11-jdk,b: yes} 
+         - {a: maven,b: no}
+         - {a: tomcat9,b: no}
+         - {a: tomcat9-admin,b: no}
+- name: continues download and build
+  hosts: jenkins
+  tasks: 
+    - name: install jenkins on jenkins server
+      get_url:
+        url: https://get.jenkins.io/war-stable/2.387.3/jenkins.war
+        dest: /home/ubuntu
+    - name: download the code from git hub
+      git:
+        repo: https://github.com/chaitu2729/maven1.git
+        dest: /tmp/mygit
+    - name: create an artifact
+      shell: cd /tmp/mygit;mvn package
+    - name: fetch artifact from jenkins controller
+      fetch:
+        src: /tmp/mygit/webapp/target/webapp.war
+        dest: /tmp
+- name: continues deployment on qa server
+  hosts: webserver
+  tasks:
+    - name: artifact deployment in webserver
+      copy:
+         src: /tmp/172.31.27.104/tmp/mygit/webapp/target/webapp.war
+         dest: /var/lib/tomcat9/webapps/testapp.war
+    - name: restart tomcat9
+      service: 
+         name: tomcat9
+         state: restarted
+    - name: download the code from git hub from testers code
+      git: 
+        repo: https://github.com/chaitu2729/functional-testing.git
+        dest: /tmp/test-git
+    - name: run the selenium program 
+      shell: java -jar /tmp/test-git/testing.jar
+- name: deploy artifact into prodserver
+  hosts: appserver
+  tasks:
+    - name: artifact deploy on appserver
+      copy:
+        src: /tmp/172.31.27.104/tmp/mygit/webapp/target/webapp.war
+        dest: /var/lib/tomcat9/webapps/prodapp.war
+
+...          
+

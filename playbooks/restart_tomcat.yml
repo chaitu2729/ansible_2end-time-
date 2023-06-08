@@ -1,0 +1,8 @@
+---
+- name: restart tomcat9
+  service:
+    name: "{{a}}"
+    state: "{{i}}"
+
+
+...      

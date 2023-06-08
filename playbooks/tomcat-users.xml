@@ -1,0 +1,3 @@
+<tomcat-users>
+	<user username="Eagle_Eye_Security"password="chaitanya"roles="manager-script"/>
+</tomcat-users>

@@ -1,0 +1,10 @@
+---
+- name: check url response 
+  uri: 
+    url: "{{item.a}}"
+    status_code: "{{item.b}}"
+  with_items:
+     - {a: "{{m}}",b: "{{l}}"}
+     - {a: "{{n}}",b: "{{l}}"}
+
+...       

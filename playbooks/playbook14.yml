@@ -1,0 +1,22 @@
+---
+- name: implenting tags
+  hosts: all
+  tasks:
+    - name: installing  tree
+      apt:
+        name: tree
+        state: present
+        update_cache: yes
+      tags: install tree 
+    - name: installing maven 
+      apt: 
+       name: git
+       state: present
+       update_cache: no
+      tags: install git
+    - name: creation of user
+      user:
+        name: chandra
+        password: 7894
+        home: /home/ubuntu
+

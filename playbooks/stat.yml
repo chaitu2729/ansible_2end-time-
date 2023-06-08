@@ -1,0 +1,21 @@
+---
+- name: check  the file9 present or not if nor create a directory 
+  hosts: all
+  tasks: 
+    - name: check if the file9 present 
+      stat: 
+        path: /home/ubuntu/file9
+      register: a 
+    - name: display output of above module 
+      debug: 
+        var: a
+    - name: if file9 not present create directory
+      file: 
+        name: /home/ubuntu/file9
+        state: directory
+      when: a.stat.exists == false 
+
+
+
+
+...        

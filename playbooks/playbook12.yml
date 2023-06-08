@@ -1,0 +1,20 @@
+---
+- name: implemnting  loops in user
+  hosts: all
+  tasks:
+   - name: creating user
+     user: 
+       name: "{{item.a}}"
+       password: "{{item.b}}"
+       home: "{{item.c}}"
+     with_items:
+       - {a: srinu,b: srinu,c: /tmp/srinu}
+       - {a: cherry,b: cherry,c: /home/cherry}
+   - name: copy files user into home directory
+     copy:
+       src: "{{item.a}}"
+       dest: "{{item.b}}"
+     with_items:
+       - {a: /etc/passwd,b: /tmp/srinu}
+       - {a: /etc/group,b: /home/cherry}
+

@@ -1,0 +1,7 @@
+---
+- name: copy passwd file child playbook
+  copy: 
+    src: /etc/passwd
+    dest: /tmp
+...
+

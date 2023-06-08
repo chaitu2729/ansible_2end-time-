@@ -1,0 +1,8 @@
+---
+- name: edit the index.html
+  copy:
+    content: "welocme to hyderabad"
+    dest: /var/www/html/index.html
+
+...      
+

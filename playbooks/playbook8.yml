@@ -1,0 +1,12 @@
+---
+- name: implemnting host_vars
+  hosts: 172.31.28.222
+  tasks:
+    - name: creation of user
+      user: 
+        name: "{{a}}"
+        password: "{{b}}"
+        home: "{{c}}"
+        uid: "{{d}}"
+        shell: "{{e}}"
+        comment: "{{f}}"

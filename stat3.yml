@@ -1,0 +1,17 @@
+---
+- name: if the f3 file is present and change the permission 
+  hosts: all
+  tasks: 
+     - name: check the f3 is present  or not
+       stat:
+         path: /home/ubuntu/f3
+       register: c
+     - name: display the above module
+       debug:
+         var: c
+     - name: create f3 file
+       file:
+         name: /home/ubuntu/f3  
+         state: touch
+         mode: 777
+       when: c.stat.exists == false   

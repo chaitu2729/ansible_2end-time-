@@ -1,0 +1,16 @@
+---
+- name: installation on os bassed
+  hosts: all 
+  tasks:
+     - name: installing git software apt module
+       apt:
+         name: git
+         state: present
+         update_cache: yes
+       when: ansible_distribution == "Ubuntu"
+     - name: installing git useing yum module
+       yum:
+         name: git
+         state: present
+         update_cache: yes
+       when: ansible_distribution == "RedHat"   

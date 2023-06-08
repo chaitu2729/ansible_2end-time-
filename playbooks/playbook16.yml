@@ -1,0 +1,16 @@
+---
+- name: implementing block and rescue
+  hosts: all
+  tasks:
+    - block: 
+       - name: installing tree
+         apt:
+           name: tree
+           state: present
+           update_cache: yes  
+      rescue:
+       - name: installing tree using yum
+         yum: 
+            name: tree
+            state: present
+            update_cache: yes  

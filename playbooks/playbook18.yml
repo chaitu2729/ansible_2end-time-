@@ -1,0 +1,6 @@
+---
+- name: call chaild playbook
+  hosts: all 
+  tasks:
+    - name: call child playbook
+      include: playbook17.yml
